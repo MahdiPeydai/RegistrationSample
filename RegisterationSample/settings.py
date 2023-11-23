@@ -13,6 +13,10 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 from pathlib import Path
 import os
 
+from dotenv import load_dotenv
+
+load_dotenv()
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -82,12 +86,8 @@ DATABASES = {
         'NAME': os.getenv('MYSQL_DATABASE'),
         'USER': 'root',
         'PASSWORD': os.getenv('MYSQL_ROOT_PASSWORD'),
-        'HOST': 'mysql',
-        'PORT': '3306',
-        'OPTIONS': {
-            'auth_plugin': 'caching_sha2_password',
-            'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
-        }
+        'HOST': 'localhost',
+        'PORT': '3306'
     }
 }
 
@@ -127,10 +127,13 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
 STATIC_URL = 'static/'
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'static')
+]
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-AUTH_USER_MODEL = 'Authentication.models.User'
+AUTH_USER_MODEL = 'Authentication.User'
