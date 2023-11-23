@@ -1,0 +1,75 @@
+{% extends 'layout/layout.html' %}
+
+{% block style %}
+    <style>
+        .errorlist{
+            margin-bottom: 0;
+        }
+        .errorlist li{
+            color: orangered;
+        }
+    </style>
+{% endblock %}
+
+{% block main %}
+    <div class="container-fluid vh-100 d-flex justify-content-center align-items-center">
+        <div class="col-10 col-md-8 col-lg-5">
+            <div class="text-center mb-5">
+                <h4>Welcome To</h4>
+                <h1>Aranic</h1>
+            </div>
+            <div class="rounded-4 shadow-lg">
+                <div class="col-12 d-flex">
+                    <div class="col-6 text-center rounded-top-4 {% if default == 'login' %}bg-light shadow{% endif %}">
+                        <button id="registrationBtn" class="col-12 btn">
+                            ثبت نام
+                        </button>
+                    </div>
+                    <div class="col-6 text-center rounded-top-4 {% if default == 'registration' %}bg-light shadow{% endif %}">
+                        <button id="loginBtn" class="col-12 btn">
+                            ورود
+                        </button>
+                    </div>
+                </div>
+                <div class="col-12 px-5 py-2">
+                    <form id="registerForm" action="{% url 'registration' %}" method="post" class="{% if default == 'login' %}d-none{% endif %}">
+                        {% csrf_token %}
+                        {{ reg_form.as_p }}
+                        <div class="mt-3 d-flex justify-content-center">
+                            <button class="col-10 col-sm-8 col-md-6 col-lg-5 btn btn-success" type="submit">ثبت‌ نام</button>
+                        </div>
+                    </form>
+                    <form id="loginForm" action="{% url 'login' %}" method="post" class="{% if default == 'registration' %}d-none{% endif %}">
+                        {% csrf_token %}
+                        {{ reg_form.as_p }}
+                        <div class="m-4 d-flex justify-content-center">
+                            <button class="col-10 col-sm-8 col-md-6 col-lg-5 btn btn-primary" type="submit">ورود</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block script %}
+<script>
+    document.getElementById('registrationBtn').addEventListener('click', function() {
+        document.getElementById('loginForm').classList.add('d-none');
+        document.getElementById('registerForm').classList.remove('d-none');
+        document.getElementById('loginBtn').parentElement.classList.add('bg-light');
+        document.getElementById('registrationBtn').parentElement.classList.remove('bg-light');
+        document.getElementById('loginBtn').parentElement.classList.add('shadow');
+        document.getElementById('registrationBtn').parentElement.classList.remove('shadow');
+    });
+
+    document.getElementById('loginBtn').addEventListener('click', function() {
+        document.getElementById('loginForm').classList.remove('d-none');
+        document.getElementById('registerForm').classList.add('d-none');
+        document.getElementById('loginBtn').parentElement.classList.remove('bg-light');
+        document.getElementById('registrationBtn').parentElement.classList.add('bg-light');
+        document.getElementById('loginBtn').parentElement.classList.remove('shadow');
+        document.getElementById('registrationBtn').parentElement.classList.add('shadow');
+    });
+</script>
+{% endblock %}
