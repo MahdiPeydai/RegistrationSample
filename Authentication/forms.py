@@ -34,7 +34,8 @@ class UserRegisterForm(UserCreationForm):
         password_confirm = cleaned_data.get("password_confirm")
 
         if password != password_confirm:
-            raise forms.ValidationError("Passwords do not match. Please enter matching passwords for New Password and Confirm New Password.")
+            raise forms.ValidationError("Passwords do not match. Please enter matching passwords for New Password and "
+                                        "Confirm New Password.")
 
         return cleaned_data
 
@@ -43,7 +44,7 @@ class UserRegisterForm(UserCreationForm):
         fields = ['first_name', 'last_name', 'email', 'phone']
 
 
-class UserLoginForm(AuthenticationForm):
+class UserLoginForm(forms.Form):
     email = forms.EmailField(label='ایمیل', widget=forms.EmailInput(attrs={"placeholder": "ایمیل", 'class': 'form-control'}), required=True)
     password = forms.CharField(label="رمز عبور", widget=forms.PasswordInput(attrs={"placeholder": "رمز عبور", 'class': 'form-control'}),
                                required=True)

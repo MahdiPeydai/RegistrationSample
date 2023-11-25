@@ -1,9 +1,13 @@
 const path = require('path');
 const { WebpackManifestPlugin } = require('webpack-manifest-plugin');
+const webpack = require('webpack');
 
 module.exports = {
     entry: {
         layout : './src/js/layout.js',
+        admin_panel : './src/js/admin_panel.js',
+        edit_page : './src/js/edit_page.js',
+        authentication : './src/js/authentication.js'
     },
     output: {
         path : path.resolve(__dirname, 'static'),
@@ -12,7 +16,11 @@ module.exports = {
         assetModuleFilename: '[name][ext]',
     },
     plugins: [
-        new WebpackManifestPlugin()
+        new WebpackManifestPlugin(),
+        new webpack.ProvidePlugin({
+            $: 'jquery',
+            jQuery: 'jquery'
+        })
     ],
     module: {
         rules: [
