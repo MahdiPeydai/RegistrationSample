@@ -1,0 +1,53 @@
+{% extends 'layout/layout.html' %}
+
+{% load static %}
+
+{% block main %}
+    {% csrf_token %}
+    <div class="m-5 p-4 rounded-4 shadow">
+        <div id="message-container">
+        </div>
+        <div class="navbar navbar-expand-lg d-flex justify-content-between">
+            <p class="h4 my-0">
+                کاربران
+            </p>
+        </div>
+        <hr>
+        <table class="table">
+            <thead>
+            <tr>
+                <th class="text-secondary" scope="col">نام و نام خانوادگی:</th>
+                <th class="text-secondary" scope="col">ایمیل:</th>
+                <th class="text-secondary" scope="col">تلفن:</th>
+                <th class="text-secondary" scope="col">عضویت:</th>
+                <th class="text-secondary" scope="col">ویرایش:</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for user in users %}
+                <tr id="user-{{ user.id }}">
+                    <td class="align-middle">{{ user.first_name }} {{ user.last_name }}</td>
+                    <td class="align-middle">{{ user.email }}</td>
+                    <td class="align-middle">{{ user.phone }}</td>
+                    <td class="align-middle">{{ user.date_joined }}</td>
+                    <td class="align-middle">
+                        <a href="{% url 'user_edit' pk=user.id %}" class="m-1 btn p-1 shadow">
+                            <i class="fa-regular fa-pen-to-square fa-lg"></i>
+                        </a>
+                        <a class="delete-btn m-1 btn p-1 shadow" data-url="{% url 'user_detail' pk=user.id %}" data-id="{{ user.id }}">
+                            <i class="fa-regular fa-trash-can fa-lg"></i>
+                        </a>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <div class="mx-5 mt-5 ">
+        <a class="btn btn-danger d-inline-flex rounded-5 shadow-sm" href="{% url 'logout' %}"><p class="h4 m-2">خروج</p><i class="m-2 align-middle fa-solid fa-door-open fa-xl"></i></a>
+    </div>
+{% endblock %}
+
+{% block script %}
+    <script src="{% static 'admin_panel.js' %}"></script>
+{% endblock %}
