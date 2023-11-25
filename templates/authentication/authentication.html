@@ -1,5 +1,7 @@
 {% extends 'layout/layout.html' %}
 
+{% load static %}
+
 {% block style %}
     <style>
         .errorlist{
@@ -27,7 +29,7 @@
                     </div>
                     <div class="col-6 text-center rounded-top-4 {% if default == 'registration' %}bg-light shadow{% endif %}">
                         <button id="loginBtn" class="col-12 btn">
-                            ورود
+                             ورود به پنل
                         </button>
                     </div>
                 </div>
@@ -65,23 +67,5 @@
 {% endblock %}
 
 {% block script %}
-<script>
-    document.getElementById('registrationBtn').addEventListener('click', function() {
-        document.getElementById('loginForm').classList.add('d-none');
-        document.getElementById('registerForm').classList.remove('d-none');
-        document.getElementById('loginBtn').parentElement.classList.add('bg-light');
-        document.getElementById('registrationBtn').parentElement.classList.remove('bg-light');
-        document.getElementById('loginBtn').parentElement.classList.add('shadow');
-        document.getElementById('registrationBtn').parentElement.classList.remove('shadow');
-    });
-
-    document.getElementById('loginBtn').addEventListener('click', function() {
-        document.getElementById('loginForm').classList.remove('d-none');
-        document.getElementById('registerForm').classList.add('d-none');
-        document.getElementById('loginBtn').parentElement.classList.remove('bg-light');
-        document.getElementById('registrationBtn').parentElement.classList.add('bg-light');
-        document.getElementById('loginBtn').parentElement.classList.remove('shadow');
-        document.getElementById('registrationBtn').parentElement.classList.add('shadow');
-    });
-</script>
+<script src="{% static 'authentication.js'%}"></script>
 {% endblock %}
