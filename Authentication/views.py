@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from rest_framework.views import APIView
 from .forms import UserRegisterForm, UserLoginForm
-from django.contrib.auth import authenticate
+from django.contrib.auth import login as auth_login, logout as auth_logout, authenticate
 from django.contrib import messages
 from .authentication import admin_authentication
 
@@ -16,6 +16,7 @@ class RegistrationView(APIView):
     def post(self, request):
         reg_form = UserRegisterForm(request.POST)
         if reg_form.is_valid():
+            reg_form.save()
             return redirect('login')
         else:
             login_form = UserLoginForm
@@ -38,7 +39,9 @@ class LoginView(APIView):
             user = authenticate(email=email, password=password)
             if user:
                 if admin_authentication(user):
-                    return
+                    auth_logout(request)
+                    auth_login(request, user)
+                    return redirect('panel')
                 else:
                     messages.error(request, 'شما به پنل دسترسی ندارید')
                     return redirect('login')
@@ -49,3 +52,10 @@ class LoginView(APIView):
             messages.error(request, 'ایمیل یا رمز عبور صحیح نمی‌باشد')
             return redirect('login')
 
+
+def logout(request):
+    if request.user.is_authenticated:
+        auth_logout(request)
+        return redirect('login')
+    else:
+        return redirect('login')
